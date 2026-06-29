@@ -37,4 +37,4 @@ df = spark.createDataFrame([{
     "source": "football-data.org"
 }])
 
-df.write.format("delta").mode("append").saveAsTable("world-cup.bronze.matches")
+df.write.format("delta").mode("append").saveAsTable("`world-cup`.bronze.matches")
