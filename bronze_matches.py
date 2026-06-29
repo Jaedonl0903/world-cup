@@ -37,4 +37,6 @@ df = spark.createDataFrame([{
     "source": "football-data.org"
 }])
 
-df.write.format("delta").mode("append").saveAsTable("`world-cup`.bronze.matches")
+spark.sql("USE CATALOG `world-cup`")
+
+df.write.format("delta").mode("append").saveAsTable("bronze.matches")
