@@ -3,6 +3,8 @@ import os
 import logging
 from dotenv import load_dotenv
 import json
+from datetime import datetime, timezone
+from pyspark.sql import SparkSession
 
 load_dotenv()
 
@@ -36,4 +38,12 @@ except requests.exceptions.RequestException as e:
 
 data = r.json()
 raw = json.dumps(data)
-print(raw)
+
+
+df = spark.createDataFrame([{
+    "raw": raw,
+    "ingested_at": datetime.now(timezone.utc).isoformat(),
+    "source": "football-data.org"
+}])
+
+df.write.format("delta").mode("append").saveAsTable("world-cup.bronze.matches")
